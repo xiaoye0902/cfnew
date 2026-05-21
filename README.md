@@ -35,13 +35,15 @@
 ## v2.9.8 更新
 
 - 订阅转换内部实现：Clash / Stash / Sing-box / Surge / Loon / Quantumult X 配置全部由 Worker 直接生成，不再依赖任何外部 sub-converter
-  - Clash YAML：包含完整的 `proxies` / `proxy-groups`（节点选择 / 自动选择 / 国外媒体 / 微软 / 电报 / 苹果 / 直连 / 拦截 / 漏网之鱼）+ `rules`
-  - Sing-box JSON：含 selector + urltest outbound、内置 DNS、`geosite:cn` 直连分流
-  - Surge / Loon / Quanx：完整 General/Proxy/Proxy Group/Rule 段
-  - 自定义 DNS、ECH 参数全部在内部生成时直接注入，无需后处理
-  - 兼容旧 `scu` 字段（留空即可，已不再生效）
-- 页面特效图形化开关：左上角 `FX: ON / OFF` 按钮可一键关闭矩阵雨、扫描线、辉光等装饰动效（保留布局与配色），选择 localStorage 持久化
-- 全部内部生成器对 ECH / 自定义 SNI / WS 主机头都做了正确序列化
+  - 完整规则集：Clash 使用 Loyalsoldier `rule-providers`；Sing-box 使用 MetaCubeX SRS；Surge / Loon / QuanX 使用 ACL4SSR / blackmatrix7 远端规则
+  - 各策略分组均包含「策略组 + 全部节点」，可直接切换具体节点
+  - 修复 Clash IPv6 节点 `server` 被解析为数组、代理组 `🎯 全球直连` ↔ `🚀 节点选择` 循环引用等问题
+- 链接参数 ALPN 留空：生成的 VLESS / Trojan / xhttp 分享链接不再写死 `alpn=h3`，由客户端自行协商
+- KV 配置缓存：30s 短窗口 + 跨 isolate 版本键 `c_ver`，保存后无需刷新两次
+- SOCKS5 降级超时：直连 3.5s 无数据自动走 fallback
+- 标签：「启用 GitHub 默认优选」改为「启用自定义优选」
+- 页面特效开关：`FX: ON / OFF`，选择 localStorage 持久化
+- 提供混淆版本 `少年你相信光吗`，逻辑与 `明文源吗` 完全一致
 
 ## v2.9.7 更新
 
