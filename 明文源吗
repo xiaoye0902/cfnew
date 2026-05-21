@@ -1615,9 +1615,9 @@
             : '      - DIRECT';
         const lines = [];
         if (directFirst) {
-            lines.push('      - "🎯 全球直连"', '      - "🚀 节点选择"', '      - "♻️ 自动选择"');
+            lines.push('      - "🎯 全球直连"', '      - "🚀 节点选择"');
         } else {
-            lines.push('      - "🚀 节点选择"', '      - "♻️ 自动选择"', '      - "🎯 全球直连"');
+            lines.push('      - "🚀 节点选择"', '      - "🎯 全球直连"');
         }
         for (const g of extraGroups) lines.push(`      - ${yq(g)}`);
         lines.push(nodeLines);
@@ -1630,8 +1630,8 @@
         const sep = compact ? ',' : ', ';
         const list = names.length ? names.join(sep) : 'DIRECT';
         const parts = [];
-        if (directFirst) parts.push('🎯 全球直连', '🚀 节点选择', '♻️ 自动选择');
-        else parts.push('🚀 节点选择', '♻️ 自动选择', '🎯 全球直连');
+        if (directFirst) parts.push('🎯 全球直连', '🚀 节点选择');
+        else parts.push('🚀 节点选择', '🎯 全球直连');
         parts.push(...extraGroups);
         if (names.length) parts.push(list);
         return parts.join(sep);
@@ -1811,15 +1811,7 @@
             '  - name: "🚀 节点选择"',
             '    type: select',
             '    proxies:',
-            '      - "♻️ 自动选择"',
             '      - "🎯 全球直连"',
-            nodeOnly,
-            '  - name: "♻️ 自动选择"',
-            '    type: url-test',
-            '    url: http://www.gstatic.com/generate_204',
-            '    interval: 300',
-            '    tolerance: 50',
-            '    proxies:',
             nodeOnly,
             '  - name: "🌍 国外媒体"',
             '    type: select',
@@ -2060,19 +2052,18 @@
                 }
             ],
             outbounds: [
-                { type: 'selector', tag: 'select', outbounds: ['♻️ 自动选择', 'direct', ...outboundTags], default: '♻️ 自动选择' },
-                { type: 'urltest', tag: '♻️ 自动选择', outbounds: outboundTags.length ? outboundTags : ['direct'], url: 'http://www.gstatic.com/generate_204', interval: '5m', tolerance: 50 },
-                { type: 'selector', tag: '🌍 国外媒体', outbounds: ['select', '♻️ 自动选择', 'direct', ...outboundTags] },
-                { type: 'selector', tag: '📲 电报信息', outbounds: ['select', '♻️ 自动选择', 'direct', ...outboundTags] },
-                { type: 'selector', tag: '🌐 谷歌服务', outbounds: ['select', '♻️ 自动选择', 'direct', ...outboundTags] },
-                { type: 'selector', tag: '🤖 OpenAI', outbounds: ['select', '♻️ 自动选择', 'direct', ...outboundTags] },
-                { type: 'selector', tag: 'Ⓜ️ 微软服务', outbounds: ['direct', 'select', '♻️ 自动选择', ...outboundTags] },
-                { type: 'selector', tag: '🍎 苹果服务', outbounds: ['direct', 'select', '♻️ 自动选择', ...outboundTags] },
-                { type: 'selector', tag: '📺 哔哩哔哩', outbounds: ['direct', 'select', '♻️ 自动选择', ...outboundTags] },
-                { type: 'selector', tag: '📹 油管视频', outbounds: ['select', '♻️ 自动选择', '🌍 国外媒体', 'direct', ...outboundTags] },
-                { type: 'selector', tag: '🎬 奈飞视频', outbounds: ['select', '♻️ 自动选择', '🌍 国外媒体', 'direct', ...outboundTags] },
+                { type: 'selector', tag: 'select', outbounds: ['direct', ...outboundTags], default: outboundTags[0] || 'direct' },
+                { type: 'selector', tag: '🌍 国外媒体', outbounds: ['select', 'direct', ...outboundTags] },
+                { type: 'selector', tag: '📲 电报信息', outbounds: ['select', 'direct', ...outboundTags] },
+                { type: 'selector', tag: '🌐 谷歌服务', outbounds: ['select', 'direct', ...outboundTags] },
+                { type: 'selector', tag: '🤖 OpenAI', outbounds: ['select', 'direct', ...outboundTags] },
+                { type: 'selector', tag: 'Ⓜ️ 微软服务', outbounds: ['direct', 'select', ...outboundTags] },
+                { type: 'selector', tag: '🍎 苹果服务', outbounds: ['direct', 'select', ...outboundTags] },
+                { type: 'selector', tag: '📺 哔哩哔哩', outbounds: ['direct', 'select', ...outboundTags] },
+                { type: 'selector', tag: '📹 油管视频', outbounds: ['select', '🌍 国外媒体', 'direct', ...outboundTags] },
+                { type: 'selector', tag: '🎬 奈飞视频', outbounds: ['select', '🌍 国外媒体', 'direct', ...outboundTags] },
                 { type: 'selector', tag: '🎯 全球直连', outbounds: ['direct'] },
-                { type: 'selector', tag: '🐟 漏网之鱼', outbounds: ['select', '♻️ 自动选择', 'direct', ...outboundTags] },
+                { type: 'selector', tag: '🐟 漏网之鱼', outbounds: ['select', 'direct', ...outboundTags] },
                 ...nodes.map(nodeToOutbound),
                 { type: 'direct', tag: 'direct' },
                 { type: 'block', tag: 'block' },
@@ -2179,8 +2170,7 @@
         lines.push('');
         lines.push('[Proxy Group]');
         const list = names.length ? names.join(', ') : 'DIRECT';
-        lines.push(`🚀 节点选择 = select, ♻️ 自动选择, 🎯 全球直连, ${list}`);
-        lines.push(`♻️ 自动选择 = url-test, ${list}, url=http://www.gstatic.com/generate_204, interval=300, tolerance=50`);
+        lines.push(`🚀 节点选择 = select, 🎯 全球直连, ${list}`);
         lines.push(`🌍 国外媒体 = select, ${iniPolicyList(names)}`);
         lines.push(`📺 哔哩哔哩 = select, ${iniPolicyList(names, { directFirst: true })}`);
         lines.push(`📹 油管视频 = select, ${iniPolicyList(names, { extraGroups: ['🌍 国外媒体'] })}`);
@@ -2260,8 +2250,7 @@
         lines.push('');
         lines.push('[Proxy Group]');
         const list = names.length ? names.join(',') : 'DIRECT';
-        lines.push(`🚀 节点选择 = select,♻️ 自动选择,🎯 全球直连,${list}`);
-        lines.push(`♻️ 自动选择 = url-test,${list},url=http://www.gstatic.com/generate_204,interval=300`);
+        lines.push(`🚀 节点选择 = select,🎯 全球直连,${list}`);
         lines.push(`🌍 国外媒体 = select,${iniPolicyList(names, { compact: true })}`);
         lines.push(`📺 哔哩哔哩 = select,${iniPolicyList(names, { directFirst: true, compact: true })}`);
         lines.push(`📹 油管视频 = select,${iniPolicyList(names, { extraGroups: ['🌍 国外媒体'], compact: true })}`);
@@ -2338,7 +2327,6 @@
         lines.push('[policy]');
         const list = names.length ? names.join(', ') : 'direct';
         lines.push(`static=🚀 节点选择, ${list}, direct, img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Proxy.png`);
-        lines.push(`url-latency-benchmark=♻️ 自动选择, ${list}, check-interval=300, tolerance=50, img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png`);
         lines.push(`static=🌍 国外媒体, ${iniPolicyList(names)}, img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/ForeignMedia.png`);
         lines.push(`static=📺 哔哩哔哩, ${iniPolicyList(names, { directFirst: true })}, img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/bilibili.png`);
         lines.push(`static=📹 油管视频, ${iniPolicyList(names, { extraGroups: ['🌍 国外媒体'] })}, img-url=https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/YouTube.png`);
