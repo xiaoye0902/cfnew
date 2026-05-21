@@ -1,4 +1,4 @@
-# CFnew - 终端 v2.9.7
+# CFnew - 终端 v2.9.8
 
 > **⚠️ 重要：部署后请将兼容日期设置为 `2026-01-20`**
 > 
@@ -31,6 +31,17 @@
 - 应用唤醒：点按钮自动打开对应客户端
 - 自动识别：根据User-Agent自动返回对应格式
 - 多语言：支持中文和波斯语，根据浏览器语言自动切换
+
+## v2.9.8 更新
+
+- 订阅转换内部实现：Clash / Stash / Sing-box / Surge / Loon / Quantumult X 配置全部由 Worker 直接生成，不再依赖任何外部 sub-converter
+  - Clash YAML：包含完整的 `proxies` / `proxy-groups`（节点选择 / 自动选择 / 国外媒体 / 微软 / 电报 / 苹果 / 直连 / 拦截 / 漏网之鱼）+ `rules`
+  - Sing-box JSON：含 selector + urltest outbound、内置 DNS、`geosite:cn` 直连分流
+  - Surge / Loon / Quanx：完整 General/Proxy/Proxy Group/Rule 段
+  - 自定义 DNS、ECH 参数全部在内部生成时直接注入，无需后处理
+  - 兼容旧 `scu` 字段（留空即可，已不再生效）
+- 页面特效图形化开关：左上角 `FX: ON / OFF` 按钮可一键关闭矩阵雨、扫描线、辉光等装饰动效（保留布局与配色），选择 localStorage 持久化
+- 全部内部生成器对 ECH / 自定义 SNI / WS 主机头都做了正确序列化
 
 ## v2.9.7 更新
 
