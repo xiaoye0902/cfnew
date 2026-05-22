@@ -1876,8 +1876,8 @@
             `  ${name}:`,
             `    type: http`,
             `    behavior: ${behavior}`,
-            `    url: "${RP_BASE}/${name}.yaml"`,
-            `    path: ./rulesets/loyalsoldier/${name}.yaml`,
+            `    url: "${RP_BASE}/${name}.txt"`,
+            `    path: ./rulesets/loyalsoldier/${name}.txt`,
             `    interval: 86400`
         ].join('\n');
 
