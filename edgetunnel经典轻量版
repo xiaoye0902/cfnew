@@ -828,11 +828,17 @@ async function 收集优选地址(主机名) {
 async function 生成订阅配置(认证令牌, 主机名) {
 	const 协议 = 解码64('dmxlc3M=');
 	const 域名 = 主机名 || '';
+	// CF 的明文端口走 ws（不加密），其余端口走 wss（TLS），据此自动切换
+	const 明文端口 = [80, 8080, 8880, 2052, 2082, 2086, 2095];
 	const 地址列表 = await 收集优选地址(域名);
 	const 链接列表 = 地址列表.map((项) => {
 		const 安全地址 = 项.地址.includes(':') ? `[${项.地址}]` : 项.地址;
+		const 是明文 = 明文端口.includes(Number(项.端口));
+		const 安全参数 = 是明文
+			? 'security=none'
+			: `security=tls&sni=${域名}&fp=randomized`;
 		return `${协议}://${认证令牌}@${安全地址}:${项.端口}` +
-			`?encryption=none&security=tls&sni=${域名}&fp=randomized&type=ws&host=${域名}&path=%2F%3Fed%3D2048` +
+			`?encryption=none&${安全参数}&type=ws&host=${域名}&path=%2F%3Fed%3D2048` +
 			`#${encodeURIComponent(项.备注)}`;
 	});
 	return btoa(链接列表.join('\n'));
