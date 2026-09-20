@@ -13,7 +13,7 @@ let 中转地址 = '';
 // 每一项可以是 host:port（如 104.16.0.1:443），也可以是一个在线列表的 URL
 // （如 https://bestcf.pages.dev/vps789/top10.txt，会把里面的地址全拉进来）。
 // URL 和 host:port 可以混着填，留空就只用访问域名本身。
-let 优选地址 = 'https://bestcf.pages.dev/vps789/top10.txt';
+let 优选地址 = '';
 // ============================================================================
 
 const 文本解码器 = new TextDecoder();
