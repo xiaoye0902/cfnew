@@ -797,7 +797,8 @@ async function 收集优选地址(主机名) {
 		结果.push({ 地址, 端口, 备注: 备注 || 键 });
 	};
 
-	const 配置项列表 = (优选地址 || '').split(',').map((项) => 项.trim()).filter((项) => 项);
+	// 分隔符兼容中英文逗号
+	const 配置项列表 = (优选地址 || '').split(/[,，]/).map((项) => 项.trim()).filter((项) => 项);
 	for (const 配置项 of 配置项列表) {
 		if (/^https?:\/\//i.test(配置项)) {
 			try {
