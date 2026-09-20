@@ -835,9 +835,11 @@ async function 生成订阅配置(认证令牌, 主机名) {
 	const 链接列表 = 地址列表.map((项) => {
 		const 安全地址 = 项.地址.includes(':') ? `[${项.地址}]` : 项.地址;
 		const 是明文 = 明文端口.includes(Number(项.端口));
+		// randomized fingerprint may cause TLS compatibility issues with some Xray/uTLS clients.
+		// Use chrome as default for better compatibility.
 		const 安全参数 = 是明文
 			? 'security=none'
-			: `security=tls&sni=${域名}&fp=randomized`;
+			: `security=tls&sni=${域名}&fp=chrome`;
 		return `${协议}://${认证令牌}@${安全地址}:${项.端口}` +
 			`?encryption=none&${安全参数}&type=ws&host=${域名}&path=%2F%3Fed%3D2048` +
 			`#${encodeURIComponent(项.备注)}`;
